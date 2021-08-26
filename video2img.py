@@ -1,8 +1,8 @@
 import os
 import cv2
 
-video_name = '/back_and_forth.mkv'
-dataset_path = '/home/NEA.com/wen.yu.chien/git/datasets/NEA/Nardo_BnF'
+video_name = '/DJI_0001.MP4'
+dataset_path = '/home/NEA.com/wen.yu.chien/git/datasets/NEA/Nardo_DJI'
 image_path = dataset_path + '/images'
 index_path = image_path + '/index'
 query_path = image_path + '/query'
@@ -36,25 +36,25 @@ frame_count = 0
 
 print (f"Total/Half Frames: {frame_total}/{frame_half}")
 
-ret = True
-
-while ret:
+while (True):
 
     ret, frame = vid.read()
 
     if ret:
         if curr_frame <= frame_half:
             name = f"{index_path}/{frame_count:04d}.jpg"
-            print (f"[Video Frame #{curr_frame}] Creating...{name}")
+            print (f"[Video Frame #{curr_frame}/{frame_total}] Creating...{name}")
         
         elif curr_frame > frame_half:
             name = f"{query_path}/{frame_count:04d}.jpg"
-            print (f"[Video Frame #{curr_frame}] Creating...{name}")
+            print (f"[Video Frame #{curr_frame}/{frame_total}] Creating...{name}")
     
         cv2.imwrite(name, frame)
         
         frame_count += 1
-        
+    else:
+        break
+
     curr_frame += frame_step
     vid.set(cv2.CAP_PROP_POS_FRAMES, curr_frame)
 
